@@ -1,0 +1,31 @@
+.navbar{
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    background-color: bisque;
+}
+
+li,h1,ul{
+    display: inline;
+}
+ul{
+    margin-left: 70%;
+}
+li{
+    padding: 20px;
+}
+html{
+}
+
+img{
+    height: 250px;
+    width: 250px;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    margin-left: 130px;
+}
+body{
+    background-color: rgb(141, 156, 151);
+}
+
