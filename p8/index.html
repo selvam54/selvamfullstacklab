@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form Validation Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    form {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    input[type="submit"] {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      border: none;
+      border-radius: 7px;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    input[type="submit"]:hover {
+      background: #0056b3;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .success {
+      color: green;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<form id="myForm" novalidate>
+  <h2>Register</h2>
+
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required />
+  <div class="error" id="nameError"></div>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required />
+  <div class="error" id="emailError"></div>
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required />
+  <div class="error" id="passwordError"></div>
+
+  <label for="confirmPassword">Confirm Password:</label>
+  <input type="password" id="confirmPassword" name="confirmPassword" required />
+  <div class="error" id="confirmPasswordError"></div>
+
+  <input type="submit" value="Submit" />
+  <div class="success" id="successMessage"></div>
+</form>
+
+<script>
+  const form = document.getElementById('myForm');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Clear previous errors
+    document.getElementById('nameError').textContent = '';
+    document.getElementById('emailError').textContent = '';
+    document.getElementById('passwordError').textContent = '';
+    document.getElementById('confirmPasswordError').textContent = '';
+    document.getElementById('successMessage').textContent = '';
+
+    // Get form values
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const password = form.password.value;
+    const confirmPassword = form.confirmPassword.value;
+
+    let isValid = true;
+
+    // Validate name (only letters, at least 2 chars)
+    if (!name) {
+      isValid = false;
+      document.getElementById('nameError').textContent = 'Name is required.';
+    } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+      isValid = false;
+      document.getElementById('nameError').textContent = 'Name can contain only letters and spaces.';
+    }
+
+    // Validate email using simple regex
+    if (!email) {
+      isValid = false;
+      document.getElementById('emailError').textContent = 'Email is required.';
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      isValid = false;
+      document.getElementById('emailError').textContent = 'Please enter a valid email.';
+    }
+
+    // Validate password (min 6 chars)
+    if (!password) {
+      isValid = false;
+      document.getElementById('passwordError').textContent = 'Password is required.';
+    } else if (password.length < 6) {
+      isValid = false;
+      document.getElementById('passwordError').textContent = 'Password must be at least 6 characters.';
+    }
+
+    // Confirm password matches
+    if (!confirmPassword) {
+      isValid = false;
+      document.getElementById('confirmPasswordError').textContent = 'Please confirm your password.';
+    } else if (password !== confirmPassword) {
+      isValid = false;
+      document.getElementById('confirmPasswordError').textContent = 'Passwords do not match.';
+    }
+
+    if (isValid) {
+      document.getElementById('successMessage').textContent = 'Form submitted successfully!';
+      form.reset();
+    }
+  });
+</script>
+
+</body>
+</html>
+

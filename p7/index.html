@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simple Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .chat-container {
+      background: white;
+      width: 400px;
+      height: 600px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-window {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ddd;
+    }
+    .message {
+      margin-bottom: 15px;
+      max-width: 70%;
+      padding: 10px 15px;
+      border-radius: 20px;
+      clear: both;
+    }
+    .user-message {
+      background: #007bff;
+      color: white;
+      float: right;
+      border-bottom-right-radius: 0;
+    }
+    .bot-message {
+      background: #e5e5ea;
+      color: black;
+      float: left;
+      border-bottom-left-radius: 0;
+    }
+    .input-area {
+      display: flex;
+      padding: 10px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 15px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      outline: none;
+    }
+    button {
+      margin-left: 10px;
+      padding: 12px 20px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="chat-window" id="chatWindow">
+    <div class="bot-message message">Hello! I am your chatbot. How can I help you today?</div>
+  </div>
+  <form id="chatForm" class="input-area">
+    <input type="text" id="userInput" autocomplete="off" placeholder="Type your message..." required />
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+<script>
+  const chatWindow = document.getElementById('chatWindow');
+  const chatForm = document.getElementById('chatForm');
+  const userInput = document.getElementById('userInput');
+
+  // Simple chatbot responses based on keywords
+  function getBotResponse(message) {
+    const msg = message.toLowerCase();
+
+    if (msg.includes('hello') || msg.includes('hi')) {
+      return "Hi there! How can I assist you?";
+    } else if (msg.includes('how are you')) {
+      return "I'm just a bot, but I'm doing great! Thanks for asking.";
+    } else if (msg.includes('your name')) {
+      return "I'm your friendly JavaScript chatbot.";
+    } else if (msg.includes('help')) {
+      return "Sure! You can ask me anything or just say hi.";
+    } else if (msg.includes('bye') || msg.includes('goodbye')) {
+      return "Goodbye! Have a great day!";
+    } else {
+      return "Sorry, I don't understand that. Can you try something else?";
+    }
+  }
+
+  // Add message to chat window
+  function addMessage(message, className) {
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('message', className);
+    msgDiv.textContent = message;
+    chatWindow.appendChild(msgDiv);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  // Handle form submit
+  chatForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const userText = userInput.value.trim();
+    if (userText === '') return;
+
+    addMessage(userText, 'user-message');
+    userInput.value = '';
+
+    // Simulate bot thinking time
+    setTimeout(() => {
+      const botReply = getBotResponse(userText);
+      addMessage(botReply, 'bot-message');
+    }, 600);
+  });
+</script>
+
+</body>
+</html>
